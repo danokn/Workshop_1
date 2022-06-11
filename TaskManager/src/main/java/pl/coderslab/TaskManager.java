@@ -9,8 +9,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class TaskManager {
-    static String[][] tasks;
-
+    static String[][] tasks = null;
     static final String fileName = "tasks.csv";
     static File file = new File(fileName);
     static final String[] options = new String[]{"add", "remove", "list", "exit"};
@@ -35,24 +34,32 @@ public class TaskManager {
             System.exit(0);
         }
         int rows = 0;
-        int columns = 0;
-        String [][] tab = null;
-        String [] wiersze = null;
-        StringBuilder sb = new StringBuilder();
+        String[][] tab2 = null;
         try (Scanner scan = new Scanner(file)) {
             while (scan.hasNextLine()) {
-                    sb.append(scan.nextLine()).append(";;");
-                    rows = rows + 1;
+                rows++;
+                System.out.println(rows + " " + scan.nextLine());
             }
-            String test = String.valueOf(Files.readAllLines(dir));
-            System.out.println(test + " test");
-            System.out.println(rows);
-            wiersze = sb.toString().split(";;");
-            System.out.println(Arrays.toString(wiersze));
+
         } catch (IOException e) {
             System.err.println("błąd");
         }
-        return tab;
+        try (Scanner scan2 = new Scanner(file)) {
+            for (int i = 0; i < rows; i++) {
+                String [] rowNumber = scan2.nextLine().split(",");
+                System.out.println(rowNumber[0]);
+                for (int k = 0; k < rowNumber.length; k++) {
+                    System.out.println("dupa");
+                    System.out.println(i);
+                    System.out.println(k);
+                    tasks[i][k] = rowNumber[k];
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Błąd");
+        }
+        System.out.println(Arrays.deepToString(tasks));
+        return tab2;
     }
 
 
